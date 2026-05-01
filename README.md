@@ -53,3 +53,7 @@ npm run type-check    # tsc --noEmit
 | [src/Material.ts](src/Material.ts) | マテリアル定義 (BRDF / 媒質) |
 | [src/Camera.ts](src/Camera.ts) | カメラ + OrbitControls + デバッグ overlay |
 | [src/ui.ts](src/ui.ts) | lil-gui パネル組み立て |
+
+## 関連記事
+
+- [GPU Path Tracer (2024-07-06)](https://daikiad.github.io/2024/07/06/gpu-path-tracer.html) — 旧バージョンの実装解説
