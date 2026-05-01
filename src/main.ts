@@ -390,6 +390,21 @@ async function main() {
 
     frame();
 
+    // バックグラウンドタブで GPU を回し続けないように、visibility に応じて停止/再開する。
+    // 高性能モード (setTimeout 駆動) はタブが隠れても止まらず、通常モードもブラウザの
+    // throttle 任せだと毎秒 1 ディスパッチは続くため、明示的に停めるのが安全。
+    let wasRenderingBeforeHidden = false;
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            wasRenderingBeforeHidden = isRendering;
+            isRendering = false;
+        } else if (wasRenderingBeforeHidden) {
+            isRendering = true;
+            // 高性能モード中に hidden になるとループが die しうるので明示的に再起動する
+            frame();
+        }
+    });
+
     (window as any).debug = { scene, camera, perf };
 }
 
