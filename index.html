@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGPU Path Tracer</title>
+    <style>
+        :root {
+            --bg: #0e0e10;
+            --surface: #16161a;
+            --border: #26262b;
+            --text: #e5e5e7;
+            --muted: #8a8a92;
+            --accent: #d4d4d8;
+            /* lil-gui のパネル幅(300px) + 余白 ぶんを右端に確保する */
+            --gui-reserve: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+                         "Helvetica Neue", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            padding-right: var(--gui-reserve);
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 56px 32px 64px;
+        }
+
+        header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        header .subtitle {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .canvases {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .panel-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: #000;
+            border: 1px solid var(--border);
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            font: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 120ms ease, background 120ms ease;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 760px) {
+            body {
+                /* モバイルではパネル別途対応する想定。今は予約スペースを解除 */
+                padding-right: 0;
+            }
+
+            .page {
+                padding: 32px 20px 48px;
+            }
+
+            .canvases {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <h1>WebGPU Path Tracer</h1>
+            <span class="subtitle">Render</span>
+        </header>
+
+        <div class="canvases">
+            <div>
+                <span class="panel-label">Output</span>
+                <canvas id="webgpu-canvas" width="600" height="600"></canvas>
+            </div>
+            <div>
+                <span class="panel-label">Debug View</span>
+                <canvas id="three-canvas" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="clearAccumulation()">Clear Accumulation</button>
+            <button class="btn" onclick="saveImage()">Save Image</button>
+        </div>
+    </div>
+
+    <script>
+        function clearAccumulation() {
+            if (window.app && window.app.clearAccumulation) {
+                window.app.clearAccumulation();
+            }
+        }
+
+        function saveImage() {
+            if (window.app && window.app.saveImage) {
+                window.app.saveImage();
+            }
+        }
+
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e);
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e);
+        });
+    </script>
+
+    <!-- main.js は HtmlWebpackPlugin により自動注入される -->
+</body>
+</html>

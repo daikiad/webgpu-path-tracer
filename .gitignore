@@ -1,0 +1,15 @@
+# Node
+node_modules/
+
+# Build outputs
+dist/
+
+# 学習用画像 / 元 Blender データ
+img/
+*.blend
+
+# OS
+.DS_Store
+
+# 3D シーンアセット (派生データ。GLTF/GLB はリポジトリに含めない方針)
+scenes/

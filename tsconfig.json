@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "ES2022",
+        "module": "ES2022",
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "typeRoots": [
+            "./node_modules/@webgpu/types"
+        ],
+        "paths": {
+            "three/addons/loaders/*": ["node_modules/@types/three/examples/jsm/loaders/*"]
+        },
+        "baseUrl": "./",
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+        "src",
+        "scenes"
+    ],
+    "files": [
+        "src/types.d.ts"
+    ]
+}
