@@ -1,59 +1,59 @@
 # WebGPU Path Tracer
 
-WebGPU の compute shader 上で動くインタラクティブなパストレーサー。GLTF シーンを読み込み、リアルタイムにマテリアル / カメラを編集しながらレンダリングできる。
+An interactive path tracer running on WebGPU compute shaders. Loads GLTF scenes and lets you edit materials and the camera live while rendering.
 
-**🌐 デモ**: https://daikiad.github.io/webgpu-path-tracer/
+**Demo**: https://daikiad.github.io/webgpu-path-tracer/
 
-> ⚠️ WebGPU 対応ブラウザが必要です (Chrome/Edge 113+、Safari 18+ on macOS 15+)。
+Requires a WebGPU-capable browser (Chrome/Edge 113+, Safari 18+ on macOS 15+).
 
-## 機能
+## Features
 
-- WebGPU compute shader によるリアルタイムパストレーシング
-- BVH (Bounding Volume Hierarchy) によるレイ-三角形交差の高速化
-- タイル分割 + 累積バッファによるプログレッシブレンダリング
-- マテリアル: `Diffuse` / `Specular` / `Dielectrics` / `GGX` / `Light` / `Smoke (Henyey–Greenstein)`
-- GLTF (.glb) シーンローダ
-- OrbitControls + Three.js デバッグオーバーレイ
-- lil-gui によるパラメータ編集 (カメラ / マテリアル / レンダリング設定)
-- 編集中は自動でプレビュー解像度に切り替えてチラつきを抑制
-- レンダリング結果の PNG エクスポート
+- Real-time path tracing on WebGPU compute shaders
+- BVH (Bounding Volume Hierarchy) acceleration for ray–triangle intersection
+- Progressive rendering with tile-based dispatch and an accumulation buffer
+- Materials: `Diffuse`, `Specular`, `Dielectrics`, `GGX`, `Light`, `Smoke` (Henyey–Greenstein)
+- GLTF (`.glb`) scene loader
+- OrbitControls + Three.js debug overlay
+- lil-gui panel for camera / material / rendering parameters
+- Automatic preview-resolution switching during edits to avoid flicker
+- PNG export of the rendered image
 
-## 動かし方
+## Getting Started
 
 ```bash
 npm install
 npm run dev      # http://localhost:9000
 ```
 
-その他のスクリプト:
+Other scripts:
 
 ```bash
-npm run build         # 本番ビルド (dist/ 出力)
-npm test              # vitest によるユニットテスト
+npm run build         # production build (outputs to dist/)
+npm test              # unit tests with vitest
 npm run type-check    # tsc --noEmit
 ```
 
-## 技術スタック
+## Tech Stack
 
 - **WebGPU** + **WGSL** (compute shader)
 - TypeScript / webpack
-- [three.js](https://threejs.org/) — GLTFLoader / OrbitControls / デバッグオーバーレイ
-- [webgpu-utils](https://github.com/greggman/webgpu-utils) — WGSL 構造体の JS 側ミラー
-- [gl-matrix](https://glmatrix.net/) — 行列演算
+- [three.js](https://threejs.org/) — GLTFLoader, OrbitControls, debug overlay
+- [webgpu-utils](https://github.com/greggman/webgpu-utils) — JS-side mirror of WGSL structs
+- [gl-matrix](https://glmatrix.net/) — matrix math
 - [lil-gui](https://lil-gui.georgealways.com/) — UI
 
-## ファイル構成
+## Project Layout
 
-| ファイル | 役割 |
+| File | Role |
 | --- | --- |
-| [src/main.ts](src/main.ts) | エントリ + フレームループ |
-| [src/PathTracer.ts](src/PathTracer.ts) | WebGPU リソース管理 + compute dispatch |
-| [src/shader.wgsl](src/shader.wgsl) | パストレーシング compute shader |
-| [src/Scene.ts](src/Scene.ts) | BVH 構築 + GLTF ローダ + シーン編集 |
-| [src/Material.ts](src/Material.ts) | マテリアル定義 (BRDF / 媒質) |
-| [src/Camera.ts](src/Camera.ts) | カメラ + OrbitControls + デバッグ overlay |
-| [src/ui.ts](src/ui.ts) | lil-gui パネル組み立て |
+| [src/main.ts](src/main.ts) | Entry point and frame loop |
+| [src/PathTracer.ts](src/PathTracer.ts) | WebGPU resource management and compute dispatch |
+| [src/shader.wgsl](src/shader.wgsl) | Path-tracing compute shader |
+| [src/Scene.ts](src/Scene.ts) | BVH construction, GLTF loader, scene editing |
+| [src/Material.ts](src/Material.ts) | Material definitions (BRDFs and participating media) |
+| [src/Camera.ts](src/Camera.ts) | Camera, OrbitControls, debug overlay |
+| [src/ui.ts](src/ui.ts) | lil-gui panel construction |
 
-## 関連記事
+## Related
 
-- [GPU Path Tracer (2024-07-06)](https://daikiad.github.io/2024/07/06/gpu-path-tracer.html) — 旧バージョンの実装解説
+- [GPU Path Tracer (2024-07-06)](https://daikiad.github.io/2024/07/06/gpu-path-tracer.html) — write-up of an earlier version of this project
